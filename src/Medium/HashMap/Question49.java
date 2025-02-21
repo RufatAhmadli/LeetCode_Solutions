@@ -16,13 +16,9 @@ public class Question49 {
             for (char c : chars) {
                 freq.set(c - 'a', freq.get(c - 'a') + 1);
             }
-            if (!map.containsKey(freq)) {
-                List<String> list = new ArrayList<>();
-                list.add(str);
-                map.put(freq, list);
-            } else {
-                map.get(freq).add(str);
-            }
+            List<String> list = map.getOrDefault(freq, new ArrayList<>());
+            list.add(str);
+            map.put(freq, list);
         }
         return new ArrayList<>(map.values());
     }

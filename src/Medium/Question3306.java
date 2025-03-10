@@ -16,6 +16,7 @@ public class Question3306 {
         return f(word, k) - f(word, k + 1);
     }
 
+
     private static long f(String word, int k) {
         long ans = 0;
         int l = 0, x = 0;

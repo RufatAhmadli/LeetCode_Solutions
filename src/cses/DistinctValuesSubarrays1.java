@@ -1,4 +1,4 @@
-//package cses;
+package cses;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,37 +7,33 @@ import java.io.StreamTokenizer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DistinctNumbers2 {
+public class DistinctValuesSubarrays1 {
 
     public static void main(String[] args) throws IOException {
         StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
         in.nextToken();
         int n = (int) in.nval;
-        in.nextToken();
-        int k = (int) in.nval;
         long[] arr = new long[n];
         for (int i = 0; i < n; i++) {
             in.nextToken();
             arr[i] = (long) in.nval;
         }
-        System.out.println(distinctCountOfSubarrays(arr, k));
+        System.out.println(findDistinctNumbers(arr));
     }
 
-    private static long distinctCountOfSubarrays(long[] arr, int k) {
+    private static long findDistinctNumbers(long[] arr) {
         int n = arr.length;
         long res = 0;
+        Map<Long, Integer> map = new HashMap<>();
         int left = 0;
-        Map<Long, Integer> freq = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            freq.merge(arr[i], 1, Integer::sum);
-            while (freq.size() > k) {
-                freq.merge(arr[left], -1, Integer::sum);
-                if (freq.get(arr[left]) == 0) {
-                    freq.remove(arr[left]);
-                }
+        for (int right = 0; right < n; right++) {
+            map.merge(arr[right], 1, Integer::sum);
+            while (map.get(arr[right]) > 1) {
+                map.merge(arr[left], -1, Integer::sum);
+//                if (map.get(arr[left]) == 0) map.remove(arr[left]);
                 left++;
             }
-            res += (i - left + 1);
+            res += (right - left + 1);
         }
         return res;
     }
